@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Amortize</title>
+    <link rel="stylesheet" href="CSS/style_scheme.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script>
+        function CreateTableSimple() {
+            var initialInvestmentAmountWidget;
+            var initialInvestmentAmountNumber;
+            var interestRateWidget;
+            var interestRateNumber;
+            var investmentTermWidget;
+            var investmentTermNumber;
+            initialInvestmentAmountWidget = document.getElementById("txtLoanAmount");
+            interestRateWidget = document.getElementById("txtInterestRate");
+            investmentTermWidget = document.getElementById("txtInvTerm");
+            initialInvestmentAmountNumber = parseInt(initialInvestmentAmountWidget.value);
+            interestRateNumber = parseFloat(interestRateWidget.value);
+            investmentTermNumber = parseFloat(investmentTermWidget.value);
+
+            var div;
+            var tabCurrent;
+            var periodInterest;
+            var principal;
+            div = document.getElementById("divPlaceholderTable");
+            tabCurrent = document.createElement("table");
+            var row = tabCurrent.insertRow(0);
+            var cell1 = row.insertCell(0);
+            cell1.innerHTML = "Beginning Balance";
+            var cell1 = row.insertCell(1);
+            cell1.innerHTML = "Payment";
+            var cell1 = row.insertCell(2);
+            cell1.innerHTML = "Interest";
+            var cell1 = row.insertCell(3);
+            cell1.innerHTML = "Principal";
+            var cell1 = row.insertCell(4);
+            cell1.innerHTML = "Current Balance";
+            var cell1 = row.insertCell(5);
+            cell1.innerHTML = "Period";
+            var beginningBalance = initialInvestmentAmountNumber;
+            var annualRate = (interestRateNumber / 12) / 100;
+            var time = investmentTermNumber * 12;
+            var resultLoanPaymentNumber = (annualRate * beginningBalance) / (1 - ((1 + annualRate) ** (time * -1)));
+            for (x = 1; x <= time; x++) {
+                var row = tabCurrent.insertRow(x);
+                var cell1 = row.insertCell(0);
+                cell1.innerHTML = beginningBalance.toFixed(2);
+                var cell2 = row.insertCell(1);
+                cell2.innerHTML = resultLoanPaymentNumber.toFixed(2);
+                var cell3 = row.insertCell(2);
+                periodInterest = beginningBalance * annualRate;
+                cell3.innerHTML = periodInterest.toFixed(2);
+                var cell4 = row.insertCell(3);
+                principal = resultLoanPaymentNumber - periodInterest;
+                cell4.innerHTML = principal.toFixed(2);
+                var cell5 = row.insertCell(4);
+                beginningBalance = beginningBalance - principal;
+                cell5.innerHTML = beginningBalance.toFixed(2);
+                var cell6 = row.insertCell(5);
+                cell6.innerHTML = x.toString();
+            }
+            div.appendChild(tabCurrent)
+        }
+    </script>
+</head>
+<body id="BodyWrap">
+    <header>
+        <nav id="HeaderWrap" class="BottomBorder">
+            <h1>Menu</h1>
+            <ul>
+                <li><a href="./Index.html">Index</a></li>
+                <li><a href="./Amortize.html">Amortize</a></li>
+                <li><a href="./FutureValue.html">Future Value</a></li>
+            </ul>
+        </nav>
+    </header>
+    <form id="numericForm">
+        <fieldset form="numericForm">
+            <legend>Enter Input to Create a Loan Amortization Schedule:</legend>
+            <label for="txtLoanAmount">Loan Amount:</label>
+            <input type="text" id="txtLoanAmount" />
+            <br />
+            <label for="txtInterestRate">Annual Interest Rate:</label>
+            <input type="text" id="txtInterestRate" />
+            <br />
+            <label for="txtInvTerm">Loan Term (Years):</label>
+            <input type="text" id="txtInvTerm" />
+            <br />
+            <button id="btnCalculate" type="button"
+                    onclick="CreateTableSimple()">
+                Create Table
+            </button>
+        </fieldset>
+    </form>
+    <div id="divPlaceholderTable" class="table table-striped table-bordered" style="color:#121212; background-color:#FFEBDC" align="center"></div>
+    <footer id="FooterWrap" class="BottomBorder">
+        <address>
+            &copy;Tanner Cunningham<br />
+        </address>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Future Value</title>
+    <link rel="stylesheet" href="CSS/style_scheme.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script>
+        function CreateTableSimple() {
+            var initialInvestmentAmountWidget;
+            var initialInvestmentAmountNumber;
+            var monthlyPaymentWidget;
+            var monthlyPaymentNumber;
+            var interestRateWidget;
+            var interestRateNumber;
+            var investmentTermWidget;
+            var investmentTermNumber;
+            initialInvestmentAmountWidget = document.getElementById("txtInvestment");
+            monthlyPaymentWidget = document.getElementById("txtNumberPeriods");
+            interestRateWidget = document.getElementById("txtInterestRate");
+            investmentTermWidget = document.getElementById("txtInvTerm");
+            initialInvestmentAmountNumber = parseInt(initialInvestmentAmountWidget.value);
+            monthlyPaymentNumber = parseFloat(monthlyPaymentWidget.value);
+            interestRateNumber = parseFloat(interestRateWidget.value);
+            investmentTermNumber = parseFloat(investmentTermWidget.value);
+
+            var div;
+            var tabCurrent;
+            var periodInterest;
+            div = document.getElementById("divPlaceholderTable");
+            tabCurrent = document.createElement("table");
+            var row = tabCurrent.insertRow(0);
+            var cell1 = row.insertCell(0);
+            cell1.innerHTML = "Investment Period";
+            var cell1 = row.insertCell(1);
+            cell1.innerHTML = "Beginning Period Balance";
+            var cell1 = row.insertCell(2);
+            cell1.innerHTML = "Monthly Deposit";
+            var cell1 = row.insertCell(3);
+            cell1.innerHTML = "Current Period's Interest";
+            var cell1 = row.insertCell(4);
+            cell1.innerHTML = "New Balance";
+            var beginningBalance = initialInvestmentAmountNumber;
+            var annualRate = (interestRateNumber / 12) / 100;
+            var time = investmentTermNumber * 12;
+            for (x = 1; x <= time; x++) {
+                var row = tabCurrent.insertRow(x);
+                var cell1 = row.insertCell(0);
+                cell1.innerHTML = x.toString();
+                var cell2 = row.insertCell(1);
+                cell2.innerHTML = beginningBalance.toFixed(2);
+                var cell3 = row.insertCell(2);
+                cell3.innerHTML = monthlyPaymentNumber;
+                var cell4 = row.insertCell(3);
+                periodInterest = beginningBalance * annualRate;
+                cell4.innerHTML = periodInterest.toFixed(2);
+                var cell5 = row.insertCell(4);
+                beginningBalance = beginningBalance + (beginningBalance * annualRate);
+                cell5.innerHTML = beginningBalance.toFixed(2);
+            }
+            div.appendChild(tabCurrent)
+        }
+    </script>
+</head>
+<body id="BodyWrap">
+    <header>
+        <nav id="HeaderWrap" class="BottomBorder">
+            <h1>Menu</h1>
+            <ul>
+                <li><a href="./Index.html">Index</a></li>
+                <li><a href="./Amortize.html">Amortize</a></li>
+                <li><a href="./FutureValue.html">Future Value</a></li>
+            </ul>
+        </nav>
+    </header>
+    <form id="numericForm">
+        <fieldset form="numericForm">
+            <legend>Enter Input to Calculate the Future Value of a Sum with a Periodic Investment:</legend>
+            <label for="txtInvestment">Initial Investment Amount:</label>
+            <input type="text" id="txtInvestment" />
+            <br />
+            <label for="txtMonthly">Monthly Deposit:</label>
+            <input type="text" id="txtNumberPeriods" />
+            <br />
+            <label for="txtInterestRate">Annual Interest Rate:</label>
+            <input type="text" id="txtInterestRate" />
+            <br />
+            <label for="txtInvTerm">Investment Term:</label>
+            <input type="text" id="txtInvTerm" />
+            <br />
+            <button id="btnCalculate" type="button"
+                    onclick="CreateTableSimple()">
+                Create Table
+            </button>
+            <br />
+        </fieldset>
+    </form>
+    <div id="divPlaceholderTable" class="table table-striped table-bordered" align="center"></div>
+    <footer id="FooterWrap" class="BottomBorder">
+        <address>
+            &copy;Tanner Cunningham<br />
+        </address>
+    </footer>
+</body>
+</html>
